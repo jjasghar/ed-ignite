@@ -1,46 +1,281 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+        <title>reveal.js</title>
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+        <link rel="stylesheet" href="dist/reset.css">
+        <link rel="stylesheet" href="dist/reveal.css">
+        <link rel="stylesheet" href="dist/theme/black.css">
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>
-					<h1>Demo Presentation</h1>
-				</section>
-	'		<section>
-  <h2>I'm a Sub Heading</h2>
-  <p>Here is some content.</p>
-  <p>and more content!</p>
-</section>
-			</div>
-		</div>
+        <!-- Theme used for syntax highlighted code -->
+        <link rel="stylesheet" href="plugin/highlight/monokai.css">
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <p>You say you can exit <code>vim</code>, have you ever tried exiting <code>ed</code> instead?</p>
+                    <br />
+                    <p>by JJ Asghar | @jjasghar | awesome@ibm.com</p>
+                </section>
+                <section data-markdown>
+                    <p>What is <code>ed</code>?</p>
+                    > ...developed by Ken Thompson in August 1969 on a PDP-7 at AT&T Bell Labs
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+                    <p>And most importantly</p>
+                    > ...aspects of ed went on to influence ex, which in turn spawned vi
+                </section>
+                <section>
+                    <p>Starting <code>ed</code></p>
+                      <pre>
+                        <code data-trim data-noescape>
+                        $ ed
+                        </code>
+                     </pre>
+                    <p>Yep, that's really it</p>
+                </section>
+                <section>
+                    <p>Quiting <code>ed</code></p>
+                      <pre>
+                        <code data-trim data-noescape>
+                        $ ed
+                        q
+                        $
+                        </code>
+                     </pre>
+                    <p>Notice there's no way to actually know if you're in <code>ed</code>.</p>
+                </section>
+                <section>
+                    <p>Adding a prompt</p>
+                      <pre>
+                        <code data-trim data-noescape>
+                        $ ed -p\* # or the like
+                        $ ed() { command ed -p\* "$@" ; }
+                        </code>
+                     </pre>
+                </section>
+                <section>
+                    <p>Adding a new line to a file</p>
+                      <pre>
+                        <code data-trim data-noescape>
+                        $ ed
+                        *a
+                        this is me typing
+                        i'm adding something
+                        .
+                        *
+                        </code>
+                     </pre>
+                    <p><code>a</code> and finish with the <code>.</code></p>
+                </section>
+                <section>
+                    <p>What to print out the last line?</p>
+                      <pre>
+                        <code data-trim data-noescape>
+                        *p
+                        i'm adding something
+                        *
+                        </code>
+                     </pre>
+                    <p><code>p</code> will do that for you.</p>
+                </section>
+                <section>
+                    <p>Move around the file with just a number</p>
+                      <pre>
+                        <code data-trim data-noescape>
+                        *1
+                        this is me typing
+                        *n
+                        1       this is me typing
+                        </code>
+                     </pre>
+                    <p><code>number</code> to move around the file, and <code>n</code> to tell you the line number</p>
+                </section>
+                <section>
+                    <p>Add new lines after the line you are on</p>
+                      <pre>
+                        <code data-trim data-noescape>
+                        *a
+                        This is me adding more lines.
+                        This should be the 3rd line now.
+                        .
+                        *3
+                        This should be the 3rd line now.
+                        *
+                        </code>
+                     </pre>
+                    <p><code>a</code> will do that for you</p>
+                </section>
+                <section>
+                    <p>Adding a new like before the line you are on</p>
+                      <pre>
+                        <code data-trim data-noescape>
+                        *i
+                        This will now be the 3nd line
+                        And this is the 4th line now that i used 'i'
+                        .
+                        *3
+                        This will now be the 3nd line
+                        *4
+                        And this will be the 4th line, now that i used 'i'
+                        </code>
+                     </pre>
+                    <p><code>i</code> will do this for you</p>
+                </section>
+                <section>
+                    <p>If you want to replace the full line</p>
+                      <pre>
+                        <code data-trim data-noescape>
+                        *c
+                        This is me changing line 4
+                        .
+                        *4
+                        This is me changing line 4
+                        </code>
+                     </pre>
+                    <p><code>c</code> will do this for you</p>
+                </section>
+                <section>
+                    <p>You can delete the whole line</p>
+                      <pre>
+                        <code data-trim data-noescape>
+                        *a
+                        i'm adding something
+                        *4d
+                        *4
+                        i'm adding something
+                        *
+                        </code>
+                     </pre>
+                    <p><code>d</code> with the number removes it</p>
+                </section>
+                <section>
+                    <p>You can join lines</p>
+                      <pre>
+                        <code data-trim data-noescape>
+                        *3
+                        this is the third line
+                        *4
+                        i'm adding something
+                        *3,4j
+                        *3
+                        this is the third linei'm adding something
+                        </code>
+                     </pre>
+                    <p><code>j</code> with the number joins the two lines</p>
+                </section>
+                <section>
+                    <p>You can select the full buffer (and print it)</p>
+                      <pre>
+                        <code data-trim data-noescape>
+                        *%p
+                        this is me typing
+                        This is me adding more lines
+                        this is the third linei'm adding something
+                        This is me changing line 4
+                        </code>
+                     </pre>
+                    <p><code>1,$</code> or <code>%</code> </p>
+                </section>
+                <section>
+                    <p>You can print only a portion of the file</p>
+                      <pre>
+                        <code data-trim data-noescape>
+                        *3,4p
+                        this is the third linei'm adding something
+                        This is me changing line 4
+                        *
+                       </code>
+                     </pre>
+                    <p><code>number,number p</code></p>
+                </section>
+                <section>
+                    <p>You can even find/print realitive lines</p>
+                      <pre>
+                        <code data-trim data-noescape>
+                       *1
+                       this is me typing
+                       *+3p
+                       This is me changing line 4
+                       *n
+                       4       This is me changing line 4
+                       </code>
+                     </pre>
+                    <p>Add relative numbers with <code>+</code> and <code>-</code></p>
+                </section>
+                <section>
+                    <p>You can move full lines with <code>m</code>.</p>
+                      <pre>
+                        <code data-trim data-noescape>
+                       *%p
+                       this is me typing
+                       This is me adding more lines
+                       This will now be the 3rd line
+                       This is me changing line 4
+                       *1,2m$
+                       *%p
+                       This will now be the 3rd line
+                       This is me changing line 4
+                       this is me typing
+                       This is me adding more lines
+                       </code>
+                     </pre>
+                </section>
+                <section>
+                    <p>You can replace things with a familiar command</p>
+                      <pre>
+                       <code data-trim data-noescape>
+                       *g/should/p
+                       This should be the 3rd line now.
+                       </code>
+                     </pre>
+                    <p>Wonder where <code>g/re/p</code> comes from eh?</p>
+                    <p><b>g</b>lobal <b>r</b>egular <b>e</b>xpression search and <b>p</b>rints</p>
+                </section>
+                <section>
+                    <p>You can search with <code>/</code></p>
+                      <pre>
+                       <code data-trim data-noescape>
+                       */typing
+                       this is me typing
+                       *
+                       </code>
+                     </pre>
+                </section>
+                <section>
+                    <p>And finally you can write the file out with <code>w</code></p>
+                      <pre>
+                       <code data-trim data-noescape>
+                       *w learning_ed.txt
+                       261
+                       *
+                       </code>
+                     </pre>
+                    <p>Thank you!</p>
+                    <p>JJ Asghar || awesome@ibm.com</p>
+                </section>
+            </div>
+        </div>
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+        <script src="dist/reveal.js"></script>
+        <script src="plugin/notes/notes.js"></script>
+        <script src="plugin/markdown/markdown.js"></script>
+        <script src="plugin/highlight/highlight.js"></script>
+        <script>
+            // More info about initialization & config:
+            // - https://revealjs.com/initialization/
+            // - https://revealjs.com/config/
+            Reveal.initialize({
+                hash: true,
+                slideNumber: true,
+                autoSlide: 15000,
+
+                // Learn about plugins: https://revealjs.com/plugins/
+                plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+        </script>
+    </body>
 </html>
